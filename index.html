@@ -1,48 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Shanae Revell</title>
+  <!-- Basic page setup -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Shanae Revell | Portfolio</title>
+
+  <!-- Connect CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-    <h1>Shanae Revell</h1>
+  <!-- =========================
+       NAVIGATION BAR
+  ========================== -->
+  <header class="navbar">
+    <h1 class="logo">Shanae Revell</h1>
 
-    <h2>Cloud & Systems Administration</h2>
+    <nav aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="/Documents/ShanaeRevellPortfolio.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+      <button type="button" id="contactButton">Contact</button>
+    </nav>
+  </header>
 
-    <p>
-        Veteran transitioning into cloud and infrastructure engineering through
-        Microsoft Software & Systems Academy (MSSA).
-    </p>
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+  <main class="container">
 
-    <hr>
+    <!-- =========================
+         ABOUT / HERO SECTION
+         Left: avatar + buttons
+         Right: intro text
+    ========================== -->
+    <section id="about" class="hero">
 
-    <h2>Projects</h2>
+      <aside class="profile-card" aria-label="Profile links">
+        <img src="images/avatar.png" alt="Illustrated portrait of Shanae Revell" />
 
-    <h3>Project Autumn</h3>
+        <div class="profile-actions">
+          <button type="button" id="contactButtonSide">📱 Contact</button>
+          <a href="/Documents/ShanaeRevellPortfolio.pdf" target="_blank" rel="noopener noreferrer">📄 Resume</a>
+          <a href="https://github.com/shanaerevell" target="_blank" rel="noopener noreferrer">🧑🏾‍💻 GitHub</a>
+        </div>
+      </aside>
 
-    <p>
-        Enterprise infrastructure lab focused on Azure, Windows Server,
-        Linux, identity management, networking services,
-        automation, and operational documentation.
-    </p>
+      <section class="hero-text" aria-label="About Shanae">
+        <p class="eyebrow">Cloud &amp; Systems Administration</p>
 
-    <h3>The Pulse</h3>
+        <h2>
+          Driven by curiosity <br />
+          Growing through challenges
+        </h2>
 
-    <p>
-        Sports-focused web application exploring frontend development,
-        APIs, and user experience design.
-    </p>
+        <div class="orange-line" aria-hidden="true"></div>
 
-    <hr>
+        <p>
+          Hi, I'm Shanae. My background in military service, healthcare, and technical
+          support taught me that successful systems are built on both strong
+          infrastructure and strong communication.
+        </p>
+        <p>
+          I take a systems-minded approach to solving problems, combining technical curiosity with a practical focus on reliability and user experience.
+        </p>
+        <p>
+          Long-term, I hope to help design and support scalable systems that empower people while continuing to grow as a cloud and infrastructure professional.
+        </p>
+      </section>
 
-    <h2>Contact</h2>
+    </section>
 
-    <p>Email: your-email-here</p>
+    <!-- =========================
+         PROJECTS + APPLIED SKILLS
+    ========================== -->
+    <section class="cards-row" aria-label="Projects and applied skills">
 
-    <p>LinkedIn: your-linkedin-here</p>
+      <article id="projects" class="main-card">
+        <p class="card-label">Portfolio</p>
+        <h2>Projects</h2>
 
-    <p>GitHub: https://github.com/shanaerevell</p>
+        <div class="project-box">
+          <h3>Project Autumn</h3>
 
+          <p>
+            Enterprise infrastructure lab focused on Azure, Windows Server, Linux,
+            identity management, networking, automation, and documentation.
+          </p>
+
+          <div class="project-meta">
+            <span><span class="dot" aria-hidden="true"></span>In Progress</span>
+            <a href="https://github.com/shanaerevell/project-autumn" target="_blank" rel="noopener noreferrer">
+              GitHub Repository
+            </a>
+          </div>
+        </div>
+
+        <div class="project-box">
+          <h3>The Pulse</h3>
+
+          <p>
+            Sports-focused web application exploring frontend development, APIs,
+            user experience design, and modern web technologies.
+          </p>
+
+          <div class="project-meta">
+            <span><span class="dot" aria-hidden="true"></span>In Progress</span>
+            <a href="https://github.com/shanaerevell/the-pulse" target="_blank" rel="noopener noreferrer">
+              GitHub Repository
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="main-card">
+        <p class="card-label">Technical Growth</p>
+        <h2>Applied Skills</h2>
+
+        <ul class="skills-list">
+          <li>Active Directory</li>
+          <li>Azure Virtual Machines</li>
+          <li>DNS &amp; DHCP Concepts</li>
+          <li>Linux Administration</li>
+          <li>PowerShell</li>
+          <li>ServiceNow ITSM</li>
+        </ul>
+      </article>
+
+    </section>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+    <footer>
+      <span>U.S. Navy Veteran</span>
+      <span>•</span>
+      <span>MSSA Participant</span>
+      <span>•</span>
+      <span>Building. Learning. Growing.</span>
+    </footer>
+
+  </main>
+
+  <!-- =========================
+       CONTACT MODAL
+       Hidden until Contact is clicked
+  ========================== -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card">
+      <button type="button" class="close-button" id="closeContact">×</button>
+
+      <h2>Contact Shanae</h2>
+      <p>Choose how you’d like to connect.</p>
+
+      <div class="modal-links">
+        <a href="mailto:Shanaerevell@gmail.com">Email Me</a>
+        <a href="tel:+1443-253-2023">Call Me</a>
+        <a href="https://www.linkedin.com/in/shanaerevell" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connect JavaScript -->
+  <script src="script.js?v=1"></script>
 </body>
 </html>

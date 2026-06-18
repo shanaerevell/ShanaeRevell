@@ -1,0 +1,399 @@
+/* =========================
+   GLOBAL RESET
+   Removes default browser spacing
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   COLOR VARIABLES
+   Reusable colors for the whole site
+========================= */
+:root {
+  --bg: #090706;
+  --card: rgba(20, 14, 10, 0.88);
+  --card-soft: rgba(30, 20, 14, 0.92);
+  --orange: #ff7a1a;
+  --orange-dark: #c2410c;
+  --text: #f6eee8;
+  --muted: #cbb8aa;
+  --border: rgba(255, 122, 26, 0.26);
+  --green: #34c759;
+}
+
+/* =========================
+   PAGE BASE
+========================= */
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(255, 122, 26, 0.14), transparent 35%),
+    radial-gradient(circle at 20% 70%, rgba(194, 65, 12, 0.18), transparent 35%),
+    linear-gradient(135deg, #050403, #130b08 55%, #1f0d08);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   NAVIGATION BAR
+========================= */
+.navbar {
+  height: 84px;
+  padding: 0 42px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(5, 4, 3, 0.82);
+}
+
+.logo {
+  color: var(--orange);
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Nav links and Contact button */
+nav a,
+nav button {
+  color: var(--orange);
+  background: transparent;
+  border: 1px solid var(--orange);
+  border-radius: 8px;
+  padding: 12px 22px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+nav a:hover,
+nav button:hover {
+  background: linear-gradient(135deg, #ff7a1a, #c2410c);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(255, 122, 26, 0.22);
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 52px 36px 30px;
+}
+
+/* =========================
+   HERO SECTION
+   330px = avatar column
+   1fr = remaining space for text
+========================= */
+.hero {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 64px;
+  align-items: center;
+  margin-bottom: 44px;
+}
+
+/* Profile image and button box */
+.profile-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.profile-card img {
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Buttons under avatar */
+.profile-actions {
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.profile-actions a,
+.profile-actions button,
+.modal-links a {
+  text-decoration: none;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Main Contact button under avatar */
+.profile-actions button:first-child {
+  background: linear-gradient(135deg, #ff7a1a, #c2410c);
+  border: none;
+}
+
+.profile-actions a:hover,
+.profile-actions button:hover,
+.modal-links a:hover {
+  transform: translateY(-2px);
+  background: var(--orange-dark);
+  border-color: var(--orange);
+  box-shadow: 0 0 24px rgba(255, 122, 26, 0.22);
+}
+
+/* =========================
+   ABOUT TEXT
+========================= */
+.hero-text {
+  max-width: 660px;
+}
+
+.eyebrow,
+.card-label {
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.86rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.hero-text h2 {
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  line-height: 1.12;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.orange-line {
+  width: 78px;
+  height: 3px;
+  background: var(--orange);
+  margin-bottom: 30px;
+}
+
+.hero-text p {
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.8;
+  margin-bottom: 22px;
+}
+
+/* =========================
+   PROJECTS + SKILLS CARDS
+========================= */
+.cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.main-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.main-card h2 {
+  font-size: 2rem;
+  margin-bottom: 22px;
+  font-weight: 600;
+}
+
+/* Individual project blocks */
+.project-box {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 122, 26, 0.18);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.project-box h3 {
+  color: var(--orange);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.project-box p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* Project status and GitHub link */
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.project-meta a {
+  color: var(--orange);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.project-meta a:hover {
+  text-decoration: underline;
+}
+
+/* Green status dot */
+.dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  background: var(--green);
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 12px rgba(52, 199, 89, 0.7);
+}
+
+/* =========================
+   APPLIED SKILLS LIST
+========================= */
+.skills-list {
+  list-style: none;
+  display: grid;
+  gap: 0;
+  margin-bottom: 26px;
+}
+
+.skills-list li {
+  color: var(--muted);
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255, 122, 26, 0.14);
+  font-size: 1.05rem;
+}
+
+/* =========================
+   CONTACT MODAL
+   Hidden until JavaScript adds .active
+========================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-card {
+  width: min(430px, 90vw);
+  background: var(--card-soft);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 34px;
+  position: relative;
+}
+
+.modal-card h2 {
+  color: var(--orange);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.modal-card p {
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.modal-links {
+  display: grid;
+  gap: 14px;
+}
+
+.close-button {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: var(--orange);
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+/* =========================
+   MOBILE LAYOUT
+   Stacks the page on smaller screens
+========================= */
+@media (max-width: 900px) {
+  .navbar {
+    height: auto;
+    padding: 22px;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .container {
+    padding: 32px 22px;
+  }
+
+  .hero,
+  .cards-row {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  .hero-text h2 {
+    font-size: 2.5rem;
+  }
+}
