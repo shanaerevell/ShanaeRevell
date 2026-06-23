@@ -29,3 +29,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Open image modal
+  function openImage(imageSrc) {
+  const modal = document.getElementById("imageModal");
+  const image = document.getElementById("expandedImage");
+
+  image.src = imageSrc;
+  modal.classList.add("active");
+  }
+
+  function closeImage() {
+  document.getElementById("imageModal").classList.remove("active");
+  }
+

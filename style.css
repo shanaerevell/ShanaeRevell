@@ -200,15 +200,94 @@ nav button:hover {
 }
 
 /* =========================
-   PROJECTS + SKILLS CARDS
+        PROJECTS 
 ========================= */
-.cards-row {
+/* =========================
+   PROJECTS SECTION
+========================= */
+.projects-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 28px;
 }
 
-.main-card {
+.project-feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.project-info h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.project-info p,
+.project-box p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.project-info h3,
+.project-box h3 {
+  color: var(--orange);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.tech-tags span {
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 9px 13px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.screenshot-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.screenshot-button img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: all 0.25s ease;
+}
+
+.screenshot-button:hover img {
+  transform: scale(1.03);
+  box-shadow: 0 0 24px rgba(255, 122, 26, 0.22);
+}
+
+.project-box {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -216,40 +295,26 @@ nav button:hover {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
-.main-card h2 {
-  font-size: 2rem;
-  margin-bottom: 22px;
-  font-weight: 600;
-}
-
-/* Individual project blocks */
-.project-box {
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 122, 26, 0.18);
+.placeholder-box {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 1px dashed var(--border);
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
 
-.project-box h3 {
-  color: var(--orange);
-  margin-bottom: 10px;
-  font-weight: 600;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.project-box p {
   color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 16px;
 }
 
-/* Project status and GitHub link */
 .project-meta {
   display: flex;
   align-items: center;
   gap: 14px;
   color: var(--muted);
   font-size: 0.95rem;
+  flex-wrap: wrap;
 }
 
 .project-meta a {
@@ -262,7 +327,6 @@ nav button:hover {
   text-decoration: underline;
 }
 
-/* Green status dot */
 .dot {
   display: inline-block;
   width: 11px;
@@ -273,27 +337,35 @@ nav button:hover {
   box-shadow: 0 0 12px rgba(52, 199, 89, 0.7);
 }
 
-/* =========================
-   APPLIED SKILLS LIST
-========================= */
-.skills-list {
-  list-style: none;
-  display: grid;
-  gap: 0;
-  margin-bottom: 26px;
-}
 
-.skills-list li {
-  color: var(--muted);
-  padding: 18px 0;
-  border-bottom: 1px solid rgba(255, 122, 26, 0.14);
-  font-size: 1.05rem;
-}
 
 /* =========================
    CONTACT MODAL
    Hidden until JavaScript adds .active
 ========================= */
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  padding: 30px;
+}
+
+.image-modal.active {
+  display: flex;
+}
+
+.image-modal img {
+  max-width: 92vw;
+  max-height: 88vh;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -384,7 +456,7 @@ footer {
   }
 
   .hero,
-  .cards-row {
+  .project-feature-card {
     grid-template-columns: 1fr;
   }
 
@@ -395,5 +467,9 @@ footer {
 
   .hero-text h2 {
     font-size: 2.5rem;
+  }
+
+  .screenshot-button img {
+    height: 160px;
   }
 }

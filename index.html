@@ -22,7 +22,7 @@
     <nav aria-label="Main navigation">
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
-      <a href="/Documents/ShanaeRevellPortfolio.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+      <a href="Documents/ShanaeRevellPortfolio.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
       <button type="button" id="contactButton">Contact</button>
     </nav>
   </header>
@@ -75,21 +75,29 @@
     </section>
 
     <!-- =========================
-         PROJECTS + APPLIED SKILLS
+         PROJECTS SECTION
+         Left: project information
+         Right: clickable screenshot grid
     ========================== -->
-    <section class="cards-row" aria-label="Projects and applied skills">
+    <section id="projects" class="projects-section" aria-label="Projects">
 
-      <article id="projects" class="main-card">
-        <p class="card-label">Portfolio</p>
-        <h2>Projects</h2>
-
-        <div class="project-box">
-          <h3>Project Autumn</h3>
-
+      <article class="project-feature-card">
+        <div class="project-info">
+          <p class="card-label">Portfolio</p>
+          <h2>Project Autumn</h2>
           <p>
-            Enterprise infrastructure lab focused on Azure, Windows Server, Linux,
-            identity management, networking, automation, and documentation.
+            Enterprise infrastructure lab for HiddenLeaf Studios, built to practice Linux administration,
+            user and group management, role-based access control, documentation, and future Azure infrastructure.
           </p>
+
+          <h3>Languages / Platforms Used</h3>
+          <div class="tech-tags" aria-label="Project Autumn technologies">
+            <span>Linux</span>
+            <span>Bash</span>
+            <span>Azure</span>
+            <span>GitHub</span>
+            <span>RBAC</span>
+          </div>
 
           <div class="project-meta">
             <span><span class="dot" aria-hidden="true"></span>In Progress</span>
@@ -99,38 +107,66 @@
           </div>
         </div>
 
-        <div class="project-box">
-          <h3>The Pulse</h3>
-
-          <p>
-            Sports-focused web application exploring frontend development, APIs,
-            user experience design, and modern web technologies.
-          </p>
-
-          <div class="project-meta">
-            <span><span class="dot" aria-hidden="true"></span>In Progress</span>
-            <a href="https://github.com/shanaerevell/The-Pulse" target="_blank" rel="noopener noreferrer">
-              GitHub Repository
-            </a>
-          </div>
+        <div class="screenshot-grid" aria-label="Project Autumn screenshots">
+          <button type="button" class="screenshot-button" onclick="openImage('images/ProjectAutumn-2.png')">
+            <img src="images/ProjectAutumn-2.png" alt="Project Autumn directory structure screenshot" />
+          </button>
+          <button type="button" class="screenshot-button" onclick="openImage('images/ProjectAutumn-1.png')">
+            <img src="images/ProjectAutumn-1.png" alt="Project Autumn permissions screenshot" />
+          </button>
+          <button type="button" class="screenshot-button" onclick="openImage('images/ProjectAutumn-3.png')">
+            <img src="images/ProjectAutumn-3.png" alt="Project Autumn users and groups screenshot" />
+          </button>
+          <button type="button" class="screenshot-button" onclick="openImage('images/ProjectAutumn-4.png')">
+            <img src="images/ProjectAutumn-4.png" alt="Project Autumn documentation logs" />
+          </button>
         </div>
       </article>
 
-      <article class="main-card">
-        <p class="card-label">Technical Growth</p>
-        <h2>Applied Skills</h2>
+      <article class="project-feature-card">
+  <div class="project-info">
+    <p class="card-label">Portfolio</p>
+    <h2>The Pulse</h2>
 
-        <ul class="skills-list">
-          <li>Active Directory</li>
-          <li>Azure Virtual Machines</li>
-          <li>DNS &amp; DHCP Concepts</li>
-          <li>Linux Administration</li>
-          <li>PowerShell</li>
-          <li>ServiceNow ITSM</li>
-        </ul>
+    <p>
+      Sports-focused web application exploring frontend development, APIs,
+      user experience design, and modern web technologies. The project is
+      currently in progress, with planned features for scores, schedules,
+      standings, and game information.
+    </p>
+
+    <h3>Languages / Platforms Used</h3>
+    <div class="tech-tags" aria-label="The Pulse technologies">
+      <span>HTML</span>
+      <span>CSS</span>
+      <span>JavaScript</span>
+      <span>GitHub</span>
+      <span>APIs</span>
+    </div>
+
+    <div class="project-meta">
+      <span><span class="dot" aria-hidden="true"></span>In Progress</span>
+      <a href="https://github.com/shanaerevell/The-Pulse" target="_blank" rel="noopener noreferrer">
+        GitHub Repository
+      </a>
+    </div>
+  </div>
+
+   <div class="screenshot-grid" aria-label="The Pulse screenshots">
+          <button type="button" class="screenshot-button" onclick="openImage('images/ThePulse-1.png')">
+            <img src="images/ThePulse-1.png" alt="The Pulse landing page screenshot" />
+          </button>
+          <button type="button" class="screenshot-button" onclick="openImage('images/ThePulse-2.png')">
+            <img src="images/ThePulse-2.png" alt="The Pulse contents screenshot" />
+          </button>
+          <button class="screenshot-button placeholder">
+          <div class="placeholder-box">Coming Soon</div>
+          </button>
+          <button class="screenshot-button placeholder">
+          <div class="placeholder-box">Coming Soon</div>
+          </button>
+        </div>
       </article>
-
-    </section>
 
     <!-- =========================
          FOOTER
@@ -144,6 +180,14 @@
     </footer>
 
   </main>
+
+  <!-- =========================
+       SCREENSHOT MODAL
+       Opens when a project screenshot is clicked
+  ========================== -->
+  <div class="image-modal" id="imageModal" onclick="closeImage()">
+    <img id="expandedImage" src="" alt="Expanded project screenshot" />
+  </div>
 
   <!-- =========================
        CONTACT MODAL
