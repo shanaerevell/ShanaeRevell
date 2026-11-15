@@ -219,6 +219,11 @@ nav button:hover {
   margin-bottom: 30px;
 }
 
+/* Keep the label above the headline orange (the paragraph color below would override it) */
+.hero-text .eyebrow {
+  color: var(--orange);
+}
+
 .credential-badges {
   list-style: none;
   display: flex;
