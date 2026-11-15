@@ -478,6 +478,76 @@ nav button:hover {
 }
 
 /* =========================
+   PET TAX
+========================= */
+.pet-tax {
+  margin-top: 28px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--orange-bright);
+  border-radius: 16px;
+  padding: 26px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.pet-tax h2 {
+  color: var(--orange);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.pet-tax p {
+  color: var(--body-text);
+}
+
+.pet-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pet-grid figure {
+  width: 180px;
+}
+
+.pet-grid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.pet-grid figcaption {
+  margin-top: 8px;
+  text-align: center;
+  color: var(--orange);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .pet-tax {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pet-grid {
+    justify-content: center;
+  }
+
+  .pet-grid figure {
+    width: calc(50% - 8px);
+  }
+}
+
+/* =========================
    FOOTER
 ========================= */
 footer {
