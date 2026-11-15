@@ -27,6 +27,14 @@ document.addEventListener("DOMContentLoaded", function () {
       closeContactModal();
     }
   });
+
+  // Esc closes whichever pop-up is open
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeContactModal();
+      closeImage();
+    }
+  });
 });
 
 // Open image modal

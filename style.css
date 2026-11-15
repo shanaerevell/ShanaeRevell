@@ -478,7 +478,8 @@ nav button:hover {
 }
 
 /* =========================
-   PET TAX
+   MEET THE STAFF (pets)
+   Heading on top, photos in a row below
 ========================= */
 .pet-tax {
   margin-top: 28px;
@@ -486,33 +487,31 @@ nav button:hover {
   border: 1px solid var(--border);
   border-top: 4px solid var(--orange-bright);
   border-radius: 16px;
-  padding: 26px 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 28px;
-  flex-wrap: wrap;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  text-align: center;
 }
 
 .pet-tax h2 {
-  color: var(--orange);
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
-.pet-tax p {
+.pet-tax-text p {
   color: var(--body-text);
+  margin-bottom: 24px;
 }
 
 .pet-grid {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 280px));
+  gap: 28px;
+  justify-content: center;
 }
 
 .pet-grid figure {
-  width: 180px;
+  margin: 0;
 }
 
 .pet-grid img {
@@ -525,25 +524,35 @@ nav button:hover {
 }
 
 .pet-grid figcaption {
-  margin-top: 8px;
-  text-align: center;
+  margin-top: 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.pet-grid figcaption strong {
   color: var(--orange);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
+.pet-grid figcaption span {
+  color: var(--body-text);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 @media (max-width: 600px) {
-  .pet-tax {
-    justify-content: center;
-    text-align: center;
-  }
-
   .pet-grid {
-    justify-content: center;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 
-  .pet-grid figure {
-    width: calc(50% - 8px);
+  .pet-grid figcaption strong {
+    font-size: 0.92rem;
+  }
+
+  .pet-grid figcaption span {
+    font-size: 0.85rem;
   }
 }
 
