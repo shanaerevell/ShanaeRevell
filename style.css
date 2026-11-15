@@ -25,6 +25,7 @@
   /* Text */
   --text: #f5f2ef;
   --muted: #b9b2ab;
+  --body-text: #efddaa;               /* soft yellow for paragraphs */
 
   /* Accent: a lighter, softer orange */
   --orange: #ffa552;                   /* headings, labels, links */
@@ -218,8 +219,28 @@ nav button:hover {
   margin-bottom: 30px;
 }
 
+.credential-badges {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -8px 0 26px;
+}
+
+.credential-badges li {
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  background: var(--tag-bg);
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
 .hero-text p {
-  color: var(--muted);
+  color: var(--body-text);
   font-size: 1.08rem;
   line-height: 1.8;
   margin-bottom: 22px;
@@ -257,7 +278,7 @@ nav button:hover {
 
 .project-info p,
 .project-box p {
-  color: var(--muted);
+  color: var(--body-text);
   line-height: 1.7;
   margin-bottom: 20px;
 }
