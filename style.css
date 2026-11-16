@@ -219,6 +219,301 @@ nav button:hover {
   margin-bottom: 30px;
 }
 
+/* =========================
+   MOONWALK
+   A small figure glides backward along a faint track, stops on the orange
+   line, turns to face the screen, then turns away to "read" the headline
+   and turns back, tips its hat, then moonwalks off to the left. Plays once on load;
+   click the line (or the figure) to replay.
+========================= */
+.moonwalk-stage {
+  position: relative;
+  width: min(100%, 320px);
+  height: 52px;
+  margin-top: -14px;
+  margin-bottom: 30px;
+}
+
+/* faint "floor" the figure slides along */
+.moonwalk-stage::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+.moonwalk-stage .orange-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+.moonwalker {
+  position: absolute;
+  left: 26px;               /* resting spot: standing on the orange line */
+  bottom: 3px;
+  width: 25px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.moonwalker:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+.moonwalker svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.moonwalker line {
+  stroke: var(--orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.moonwalker circle {
+  fill: var(--orange);
+}
+
+.moonwalker polyline {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.moonwalker .mw-eye {
+  fill: var(--bg);
+}
+
+/* hat: dark crown with an orange outline so it stands out from the head */
+.moonwalker rect {
+  fill: var(--bg);
+  stroke: var(--orange);
+  stroke-width: 2;
+}
+
+/* show one view at a time: side (walking), front (facing you),
+   three-quarter front/back (turning; the back one is the reading pose) */
+.mw-view { display: none; }
+.moonwalker[data-view="side"]  .view-side,
+.moonwalker[data-view="front"] .view-front { display: inline; }
+
+/* tipping the hat: hand goes up, lifts and tilts the hat, puts it back */
+.mw-tip-arm { transform-origin: 20px 17px; }
+.mw-hat     { transform-origin: 14px 3px; }
+
+.moonwalker.is-tipping .mw-tip-arm {
+  animation: mw-tip-arm 1.4s ease-in-out both;
+}
+
+.moonwalker.is-tipping .view-front .mw-hat {
+  animation: mw-tip-hat 1.4s ease-in-out both;
+}
+
+@keyframes mw-tip-arm {
+  0%        { transform: rotate(0deg); }
+  30%, 80%  { transform: rotate(135deg); }
+  100%      { transform: rotate(0deg); }
+}
+
+@keyframes mw-tip-hat {
+  0%, 30%   { transform: translate(0, 0) rotate(0deg); }
+  48%, 64%  { transform: translate(-1px, -3px) rotate(-20deg); }
+  80%, 100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* moonwalking away: keep gliding left, the way it came in, and fade out */
+.is-leaving .moonwalker {
+  animation: mw-exit 3s linear forwards;
+}
+
+@keyframes mw-exit {
+  0%   { left: 26px; opacity: 1; }
+  45%  { opacity: 1; }
+  100% { left: -40px; opacity: 0; }
+}
+
+/* gone until someone clicks the line to bring it back */
+.is-gone .moonwalker { opacity: 0; }
+.moonwalk-stage.is-gone { cursor: pointer; }
+
+.moonwalker[data-view="q-front"] .view-q-front,
+.moonwalker[data-view="q-back"]  .view-q-back,
+.moonwalker[data-view="read"]    .view-read { display: inline; }
+
+/* far-side limbs in the three-quarter poses */
+.moonwalker .mw-far { stroke: #c9783a; }
+
+/* turning: step through the in-between poses with a small weight shift */
+.moonwalker svg { transform-origin: 50% 100%; }
+
+.moonwalker.is-turning svg {
+  animation: mw-turn var(--turn-ms, 440ms) ease-in-out;
+}
+
+@keyframes mw-turn {
+  0%, 100% { transform: translateY(0) scaleX(1); }
+  50%      { transform: translateY(1px) scaleX(0.94); }
+}
+
+/* reading: the reading pose leans in with a hand on its chin; the head
+   drifts slowly along each line of the headline, then eases back */
+.mw-head-read { transform-origin: 21.5px 13px; }
+
+.moonwalker.is-reading .mw-head-read {
+  animation: mw-read 1.8s ease-in-out 2;
+}
+
+@keyframes mw-read {
+  0%   { transform: translate(-0.6px, 0); }
+  65%  { transform: translate(1px, -0.4px); }
+  78%  { transform: translate(1px, -0.4px); }
+  100% { transform: translate(-0.6px, 0); }
+}
+
+/* turned back to the viewer: a "yes" nod. The face tips down (eyes and
+   hat brim drop, head dips slightly) quickly, then comes back up slower */
+.moonwalker.is-nodding .mw-front-head {
+  animation: mw-nod-head 0.6s ease-in-out 2;
+}
+
+.moonwalker.is-nodding .mw-front-head .mw-eye {
+  animation: mw-nod-eyes 0.6s ease-in-out 2;
+}
+
+.moonwalker.is-nodding .mw-front-head .mw-hat {
+  animation: mw-nod-hat 0.6s ease-in-out 2;
+}
+
+@keyframes mw-nod-head {
+  0%, 100% { transform: translateY(0); }
+  35%      { transform: translateY(1px); }
+}
+
+@keyframes mw-nod-eyes {
+  0%, 100% { transform: translateY(0); }
+  35%      { transform: translateY(2.2px); }
+}
+
+@keyframes mw-nod-hat {
+  0%, 100% { transform: translateY(0); }
+  35%      { transform: translateY(1.6px); }
+}
+
+/* far-side limbs sit a little dimmer for depth */
+.mw-leg-b line,
+.mw-arm-b line {
+  stroke: #c9783a;
+}
+
+/* pivot points: hip, knee, ankle, shoulder (in SVG units) */
+.mw-leg   { transform-origin: 20px 32px; }
+.mw-shin  { transform-origin: 20px 44px; }
+.mw-foot  { transform-origin: 20px 57px; }
+.mw-arm   { transform-origin: 20px 17px; }
+.mw-upper { transform-origin: 20px 32px; }
+
+/* resting pose: arms slightly out so it reads as a person, not a pin */
+.mw-arm-a { transform: rotate(-22deg); }
+.mw-arm-b { transform: rotate(22deg); }
+.mw-leg-b { transform: rotate(8deg); }
+
+/* ---- the routine (only while playing) ---- */
+.is-playing .moonwalker {
+  animation: mw-travel 6s linear both;
+}
+
+.is-playing .mw-upper,
+.is-leaving .mw-upper {
+  animation: mw-bob 0.3s ease-in-out 20 alternate;
+}
+
+.is-playing .mw-leg,  .is-leaving .mw-leg  { animation: mw-thigh 0.6s linear 10; }
+.is-playing .mw-shin, .is-leaving .mw-shin { animation: mw-knee  0.6s linear 10; }
+.is-playing .mw-foot, .is-leaving .mw-foot { animation: mw-ankle 0.6s linear 10; }
+.is-playing .mw-arm,  .is-leaving .mw-arm  { animation: mw-swing 0.6s ease-in-out 10; }
+
+/* the far leg and arm run half a step behind */
+.is-playing .mw-leg-b,
+.is-playing .mw-leg-b .mw-shin,
+.is-playing .mw-leg-b .mw-foot,
+.is-playing .mw-arm-b,
+.is-leaving .mw-leg-b,
+.is-leaving .mw-leg-b .mw-shin,
+.is-leaving .mw-leg-b .mw-foot,
+.is-leaving .mw-arm-b {
+  animation-delay: -0.3s;
+}
+
+@keyframes mw-travel {
+  0%   { left: calc(100% - 28px); opacity: 0; }
+  6%   { opacity: 1; }
+  100% { left: 26px; opacity: 1; }
+}
+
+/* lean back slightly and bob with each step */
+@keyframes mw-bob {
+  from { transform: rotate(-5deg) translateY(0); }
+  to   { transform: rotate(-5deg) translateY(1px); }
+}
+
+/* flat foot slides back, then pops up onto the toe with a bent knee */
+@keyframes mw-thigh {
+  0%   { transform: rotate(0deg); }
+  48%  { transform: rotate(24deg); }
+  56%  { transform: rotate(-18deg); }
+  90%  { transform: rotate(-16deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes mw-knee {
+  0%, 48% { transform: rotate(0deg); }
+  56%     { transform: rotate(62deg); }
+  90%     { transform: rotate(58deg); }
+  100%    { transform: rotate(0deg); }
+}
+
+@keyframes mw-ankle {
+  0%, 48% { transform: rotate(0deg); }
+  56%     { transform: rotate(16deg); }
+  90%     { transform: rotate(18deg); }
+  100%    { transform: rotate(0deg); }
+}
+
+@keyframes mw-swing {
+  0%, 100% { transform: rotate(-8deg); }
+  50%      { transform: rotate(14deg); }
+}
+
+/* No motion for people who ask their device for less of it */
+@media (prefers-reduced-motion: reduce) {
+  .is-playing .moonwalker,
+  .is-playing .moonwalker *,
+  .moonwalker.is-turning svg,
+  .moonwalker.is-reading .mw-head-read,
+  .moonwalker.is-nodding .mw-front-head *,
+  .moonwalker.is-nodding .mw-front-head,
+  .moonwalker.is-tipping *,
+  .is-leaving .moonwalker,
+  .is-leaving .moonwalker * {
+    animation: none !important;
+  }
+}
+
 /* Keep the label above the headline orange (the paragraph color below would override it) */
 .hero-text .eyebrow {
   color: var(--orange);
