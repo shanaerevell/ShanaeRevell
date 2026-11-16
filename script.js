@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* =========================
      MOONWALKER (the little figure on the orange line)
+     The full show plays when the page loads. After that, each click on
+     the line plays the next act, #2 to #4 (see THE SEQUENCE).
      This part only decides WHEN things happen. What each move looks
      like lives in style.css under MOONWALKER.
 
@@ -93,15 +95,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // STEP 1: moonwalk in from the right (starts the show, also used to replay)
+  // STEP 1: moonwalk in from the right (runs once, when the page loads)
   function playMoonwalk() {
     if (reduceMotion.matches) return; // no animation for reduce-motion users
 
     // Cancel anything still scheduled from a previous run
     moonwalkTimers.forEach(clearTimeout);
     moonwalkTimers = [];
-    moonwalker.classList.remove("is-turning", "is-reading", "is-nodding", "is-tipping");
-    moonwalkStage.classList.remove("is-leaving", "is-gone");
+    moonwalker.classList.remove("is-turning", "is-reading", "is-nodding", "is-tipping",
+                                "is-bending", "is-straightening");
+    moonwalkStage.classList.remove("is-leaving", "is-gone", "is-skating", "is-biking", "is-jogging");
 
     showView("side");
     restartClass(moonwalkStage, "is-playing");
@@ -134,23 +137,134 @@ document.addEventListener("DOMContentLoaded", function () {
     later(10200, function () { moonwalkStage.classList.add("is-leaving"); });
   }
 
-  // LAST STEP: runs when the walk-off finishes. Hide the figure until replayed.
+  // LAST STEP: runs when the walk-off finishes. The figure is gone.
   function afterExit() {
     moonwalkStage.classList.remove("is-leaving");
     moonwalkStage.classList.add("is-gone");
     showView("front");
+    playWaitingClick();
+  }
+
+  // If someone clicked while the figure was busy, start the next act now
+  function playWaitingClick() {
+    if (!clickWaiting) return;
+    clickWaiting = false;
+    later(300, playNextAct);
+  }
+
+  /* ---- THE SEQUENCE ----
+     #1 the full moonwalk show plays when the page loads, then waits.
+     Each click on the line plays the next act:
+       click 1 -> #2 skate + wave       (left to right)
+       click 2 -> #3 bike joy ride      (right to left, the moonwalk's path)
+       click 3 -> #4 run + catch breath (left to right, the skate's path)
+     #4 closes it out: after that, clicks do nothing until the page is
+     refreshed (which starts again at #1).
+     A click while the figure is still on screen is remembered, and the
+     next act starts as soon as the current one finishes. */
+
+  // #2: skate toward the starting point, wave, fade away
+  function skateBy() {
+    startAct("is-skating", "side");
+  }
+
+  // #3: joy ride a bike to the left (helmet on, arms and legs out), fade away
+  function bikeBy() {
+    startAct("is-biking", "bike");
+  }
+
+  // Change how fast the running legs, arms and bounce move.
+  // 1 = normal speed, 0.5 = half speed. Used to slow down into the stop
+  // and speed back up, so the legs match how fast the body is moving.
+  function setRunSpeed(rate) {
+    moonwalker.getAnimations({ subtree: true }).forEach(function (animation) {
+      if (animation.animationName && animation.animationName.indexOf("mw-run-") === 0) {
+        animation.updatePlaybackRate(rate);
+      }
+    });
+  }
+
+  // #4: run in, slow to a stop in the middle, bend over to catch its
+  // breath, stand back up, run off. (The run takes 8 seconds; it is stopped
+  // from 2.8s to 5.2s.)
+  function jogBy() {
+    startAct("is-jogging", "side");
+
+    // Slowing down: the strides get slower as it nears the stop
+    later(1900, function () { setRunSpeed(0.8); });
+    later(2250, function () { setRunSpeed(0.6); });
+    later(2550, function () { setRunSpeed(0.4); });
+
+    // 2.8s: stopped. Switch to the bent-over drawing, folding down smoothly
+    later(2800, function () {
+      showView("tired");
+      restartClass(moonwalker, "is-bending");
+    });
+    later(3300, function () { moonwalker.classList.remove("is-bending"); });
+
+    // 4.7s: stand back up, then 5.2s: start running again
+    later(4700, function () { moonwalker.classList.add("is-straightening"); });
+    later(5200, function () {
+      moonwalker.classList.remove("is-straightening");
+      showView("side");
+      setRunSpeed(0.5);                            // first strides are slow...
+    });
+    later(5600, function () { setRunSpeed(0.75); });
+    later(6000, function () { setRunSpeed(1); });  // ...then back to full speed
+  }
+
+  // Shared start for acts #2 to #4: show the figure and add the act's class
+  function startAct(actClass, view) {
+    moonwalkStage.classList.remove("is-gone");
+    showView(view);
+    restartClass(moonwalkStage, actClass);
+  }
+
+  // When any of acts #2 to #4 finishes, the figure is gone again.
+  // After the last act (#4), mark the sequence as finished.
+  function afterAct() {
+    moonwalkStage.classList.remove("is-skating", "is-biking", "is-jogging");
+    moonwalkStage.classList.add("is-gone");
+    showView("front");
+    if (nextAct >= acts.length) {
+      moonwalkStage.classList.add("is-finished");
+      return;
+    }
+    playWaitingClick();
+  }
+
+  const acts = [skateBy, bikeBy, jogBy];
+  let nextAct = 0;
+  let clickWaiting = false; // true if someone clicked while an act was still playing
+
+  // Click on the line: play the next act now, or as soon as the figure has left
+  function playNextAct() {
+    if (reduceMotion.matches) return;
+    if (nextAct >= acts.length) return; // all acts played: the sequence is over
+    if (!moonwalkStage.classList.contains("is-gone")) {
+      clickWaiting = true;
+      return;
+    }
+
+    const act = acts[nextAct];
+    nextAct = nextAct + 1;
+    act();
   }
 
   if (moonwalkStage && moonwalker) {
-    // Click the line or the figure to replay
-    moonwalkStage.addEventListener("click", playMoonwalk);
+    // After the figure has left, clicking the line (or the hidden figure)
+    // plays the next act in the sequence
+    moonwalkStage.addEventListener("click", playNextAct);
 
-    // CSS tells us when the walk-in or the walk-off animation finishes
+    // CSS tells us when each trip across the line finishes
     moonwalker.addEventListener("animationend", function (event) {
-      if (event.animationName === "mw-travel") {
+      const name = event.animationName;
+      if (name === "mw-travel") {
         afterWalk();
-      } else if (event.animationName === "mw-exit") {
+      } else if (name === "mw-exit") {
         afterExit();
+      } else if (name === "mw-skate-path" || name === "mw-bike-path" || name === "mw-jog-out") {
+        afterAct();
       }
     });
 
