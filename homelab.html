@@ -80,8 +80,8 @@
             <li class="done">Runs with the lid closed</li>
             <li class="done">First Ubuntu Server VM + snapshot</li>
             <li class="done">Automated weekly backups to a dedicated drive</li>
+            <li class="done">VLAN-aware bridge in Proxmox</li>
             <li>VLANs 10 / 20 / 30 on the managed switch</li>
-            <li>VLAN-aware bridge in Proxmox</li>
             <li>Raspberry Pi on VLAN 30</li>
           </ul>
         </div>
@@ -107,6 +107,24 @@
                 <img src="images/homelab/t1-backup-job-thumb.jpg" alt="Proxmox backup job: every Sunday at 01:00, keep last 4" />
               </button>
               <figcaption>Weekly schedule, keeps the last 4</figcaption>
+            </figure>
+            <figure>
+              <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-vlan-undo-copy.jpg')">
+                <img src="images/homelab/t1-vlan-undo-copy-thumb.jpg" alt="Shell: copying /etc/network/interfaces to /root/interfaces.before-vlans" />
+              </button>
+              <figcaption>Saved an undo copy before changing the network</figcaption>
+            </figure>
+            <figure>
+              <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-vlan-before.jpg')">
+                <img src="images/homelab/t1-vlan-before-thumb.jpg" alt="Proxmox network page before: one bridge, vmbr0 on nic1" />
+              </button>
+              <figcaption>Network before: one bridge (vmbr0)</figcaption>
+            </figure>
+            <figure>
+              <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-vlan-after.jpg')">
+                <img src="images/homelab/t1-vlan-after-thumb.jpg" alt="Proxmox network page after: vmbr1 on nic0, VLAN aware Yes, comment lab trunk" />
+              </button>
+              <figcaption>After: VLAN-aware vmbr1 on nic0 for lab traffic</figcaption>
             </figure>
           </div>
         </div>
