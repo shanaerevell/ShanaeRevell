@@ -54,7 +54,7 @@ The site uses [GoatCounter](https://www.goatcounter.com/) for private, cookie-fr
   - LinkedIn: `https://shanaerevell.github.io/ShanaeRevell/?ref=linkedin`
   - GitHub profile: `https://shanaerevell.github.io/ShanaeRevell/?ref=github` (the link at the top of this README)
   - A job application: `https://shanaerevell.github.io/ShanaeRevell/?ref=company-name`
-- To stop counting your own visits, open `shanaerevell.goatcounter.com/ignore` once in each browser you use.
+- To stop counting your own visits, open `https://shanaerevell.github.io/ShanaeRevell/#toggle-goatcounter` once in each browser you use (reload if no pop-up appears). Opening it again turns counting back on.
 
 ## Status:
 
