@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic page setup -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Home Lab Notes | Shanae Revell</title>
+  <meta name="description" content="Build log for Shanae Revell's Proxmox home lab: progress by tier, screenshots, and a troubleshooting log of what broke and how it was fixed." />
+
+  <!-- Tab icon -->
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Same look as the main page, plus the styles only this page uses -->
+  <link rel="stylesheet" href="style.css?v=37" />
+  <link rel="stylesheet" href="labnotes.css?v=1" />
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVIGATION BAR
+  ========================== -->
+  <header class="navbar">
+    <h1 class="logo">Shanae Revell</h1>
+
+    <nav aria-label="Main navigation">
+      <a href="index.html#projects">← Portfolio</a>
+      <a href="Documents/ShanaeRevell_Resume.pdf?v=5" target="_blank" rel="noopener noreferrer" data-goatcounter-click="resume-labnotes" data-goatcounter-title="Resume (lab notes)">Resume</a>
+      <button type="button" id="contactButton">Contact</button>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+    <section class="lab-header">
+      <p class="eyebrow">Networking Home Lab</p>
+      <h2>Lab Notes</h2>
+      <p class="lab-intro">
+        Build log for my Proxmox VE home lab on a repurposed ThinkPad. Each tier has its progress,
+        screenshots, and a troubleshooting log: what broke, why, and how I fixed it.
+      </p>
+    </section>
+
+    <!-- =========================
+         TIER TABS
+         Each button shows one tier. Works without JavaScript too
+         (every tier is then shown, one after another).
+    ========================== -->
+    <div class="tier-tabs" role="tablist" aria-label="Lab tiers">
+      <button type="button" class="tier-tab" role="tab" data-tier="tier-1">
+        Tier 1 · Foundation <span class="tab-status status-progress">In progress</span>
+      </button>
+      <button type="button" class="tier-tab" role="tab" data-tier="tier-2">
+        Tier 2 · Routing &amp; Security <span class="tab-status">Not started</span>
+      </button>
+      <button type="button" class="tier-tab" role="tab" data-tier="tier-3">
+        Tier 3 · Enterprise <span class="tab-status">Not started</span>
+      </button>
+    </div>
+
+    <!-- =========================
+         TIER 1: FOUNDATION
+    ========================== -->
+    <section class="tier-panel" id="tier-1" role="tabpanel" aria-label="Tier 1: Foundation">
+
+      <div class="tier-grid">
+        <!-- Progress checklist -->
+        <div class="lab-card">
+          <h3>Progress</h3>
+          <ul class="checklist">
+            <li class="done">Backed up the laptop before wiping it</li>
+            <li class="done">Installed Proxmox VE bare-metal</li>
+            <li class="done">Web interface reachable from my Mac</li>
+            <li class="done">Runs with the lid closed</li>
+            <li class="done">First Ubuntu Server VM + snapshot</li>
+            <li class="done">Automated weekly backups to a dedicated drive</li>
+            <li>VLANs 10 / 20 / 30 on the managed switch</li>
+            <li>VLAN-aware bridge in Proxmox</li>
+            <li>Raspberry Pi on VLAN 30</li>
+          </ul>
+        </div>
+
+        <!-- Screenshots (click to enlarge) -->
+        <div class="lab-card">
+          <h3>Screenshots</h3>
+          <div class="lab-shots">
+            <figure>
+              <button type="button" class="screenshot-button" onclick="openImage('images/HomeLab-proxmox-summary.jpg')">
+                <img src="images/HomeLab-proxmox-summary.jpg" alt="Proxmox summary for the ubuntu-01 VM" />
+              </button>
+              <figcaption>First VM running on Proxmox</figcaption>
+            </figure>
+            <figure>
+              <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-backups.jpg')">
+                <img src="images/homelab/t1-backups-thumb.jpg" alt="Proxmox backup list showing a 2.71 GB backup of ubuntu-01 on T7-backup" />
+              </button>
+              <figcaption>VM backup on its own drive</figcaption>
+            </figure>
+            <figure>
+              <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-backup-job.jpg')">
+                <img src="images/homelab/t1-backup-job-thumb.jpg" alt="Proxmox backup job: every Sunday at 01:00, keep last 4" />
+              </button>
+              <figcaption>Weekly schedule, keeps the last 4</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- Troubleshooting log for this tier -->
+      <h3 class="log-title">Troubleshooting log <span class="log-count">3 entries</span></h3>
+
+      <article class="issue">
+        <header class="issue-head">
+          <span class="issue-num">#3</span>
+          <h4>Backup drive threw file system errors after recabling</h4>
+          <span class="issue-status resolved">Resolved</span>
+          <span class="issue-date">Nov 2026</span>
+        </header>
+        <dl class="issue-body">
+          <dt>Problem</dt>
+          <dd>After moving network cables, every boot filled the console with <code>EXT4-fs error</code> checksum messages from the backup drive.</dd>
+          <dt>Cause</dt>
+          <dd>The USB backup drive was disturbed while Proxmox had it in use, leaving its file system out of sync.</dd>
+          <dt>Fix</dt>
+          <dd>
+            Took the storage offline, unmounted it, repaired it, and brought it back:
+            <pre><code>pvesm set T7-backup --disable 1
+umount /mnt/pve/T7-backup
+fsck.ext4 -f -y /dev/sda1
+mount /dev/sda1 /mnt/pve/T7-backup
+pvesm set T7-backup --disable 0</code></pre>
+            Verified with a reboot: 0 errors, and the 2.6 GB VM backup was intact.
+          </dd>
+          <dt>Lesson</dt>
+          <dd>Never unplug storage that's in use. Shut the host down first, and confirm a fix with a restart.</dd>
+        </dl>
+        <div class="issue-shots">
+          <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-issue1-errors.jpg')">
+            <img src="images/homelab/t1-issue1-errors.jpg" alt="Console full of EXT4-fs checksum errors" />
+          </button>
+          <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-issue1-fsck.jpg')">
+            <img src="images/homelab/t1-issue1-fsck.jpg" alt="fsck.ext4 completing all five passes and fixing the file system" />
+          </button>
+          <button type="button" class="screenshot-button" onclick="openImage('images/homelab/t1-issue1-verified.jpg')">
+            <img src="images/homelab/t1-issue1-verified.jpg" alt="Zero EXT4 errors and the backup files listed after the repair" />
+          </button>
+        </div>
+      </article>
+
+      <article class="issue">
+        <header class="issue-head">
+          <span class="issue-num">#2</span>
+          <h4>Lost the network after moving the switch to a wall jack</h4>
+          <span class="issue-status open">Investigating</span>
+          <span class="issue-date">Nov 2026</span>
+        </header>
+        <dl class="issue-body">
+          <dt>Problem</dt>
+          <dd>The Proxmox web page stopped loading. The link light was up, but <code>ping 192.168.1.254</code> returned <em>Destination Host Unreachable</em>.</dd>
+          <dt>Diagnosis</dt>
+          <dd>Ruled out the host: <code>ip -br link</code> showed the adapter UP, and other wired devices still got addresses from the router. The problem is in the wall-jack path.</dd>
+          <dt>Workaround</dt>
+          <dd>Rolled the uplink back to the previous path. Everything came back with no config changes.</dd>
+          <dt>Next</dt>
+          <dd>Trace the wall jack to the router, one cable at a time.</dd>
+        </dl>
+      </article>
+
+      <article class="issue">
+        <header class="issue-head">
+          <span class="issue-num">#1</span>
+          <h4>Couldn't log in to the Proxmox web interface</h4>
+          <span class="issue-status resolved">Resolved</span>
+          <span class="issue-date">Nov 2026</span>
+        </header>
+        <dl class="issue-body">
+          <dt>Problem</dt>
+          <dd>My login kept failing on the Proxmox web page.</dd>
+          <dt>Cause</dt>
+          <dd>I was using my Ubuntu VM username. Proxmox's administrator is <code>root</code>, signing in through the <em>Linux PAM</em> realm.</dd>
+          <dt>Lesson</dt>
+          <dd>Every system has its own accounts. Store each one in a password manager.</dd>
+        </dl>
+      </article>
+    </section>
+
+    <!-- =========================
+         TIER 2: ROUTING & SECURITY
+    ========================== -->
+    <section class="tier-panel" id="tier-2" role="tabpanel" aria-label="Tier 2: Routing and Security">
+      <div class="tier-grid">
+        <div class="lab-card">
+          <h3>Progress</h3>
+          <ul class="checklist">
+            <li>pfSense VM: WAN plus a VLAN trunk for the lab</li>
+            <li>VLAN 20 / 30 interfaces with DHCP</li>
+            <li>DNS for the lab</li>
+            <li>Firewall rules: the Pi can't reach management</li>
+            <li>WireGuard VPN from my phone</li>
+            <li>Config backup</li>
+          </ul>
+        </div>
+        <div class="lab-card">
+          <h3>Screenshots</h3>
+          <div class="lab-shots">
+            <div class="placeholder-box">Firewall rules<br />coming soon</div>
+            <div class="placeholder-box">VPN<br />coming soon</div>
+          </div>
+        </div>
+      </div>
+      <h3 class="log-title">Troubleshooting log <span class="log-count">no entries yet</span></h3>
+      <p class="log-empty">Nothing has broken here yet. Give it time.</p>
+    </section>
+
+    <!-- =========================
+         TIER 3: ENTERPRISE
+    ========================== -->
+    <section class="tier-panel" id="tier-3" role="tabpanel" aria-label="Tier 3: Enterprise">
+      <div class="tier-grid">
+        <div class="lab-card">
+          <h3>Progress</h3>
+          <ul class="checklist">
+            <li>Windows Server domain controller (lab.internal)</li>
+            <li>Windows 11 client joined to the domain</li>
+            <li>OUs, users and groups</li>
+            <li>Group Policy: password, mapped drive, wallpaper</li>
+            <li>Monitoring (Zabbix or Grafana)</li>
+            <li>Wazuh SIEM with logs from the DC and pfSense</li>
+          </ul>
+        </div>
+        <div class="lab-card">
+          <h3>Screenshots</h3>
+          <div class="lab-shots">
+            <div class="placeholder-box">Active Directory<br />coming soon</div>
+            <div class="placeholder-box">Wazuh alerts<br />coming soon</div>
+          </div>
+        </div>
+      </div>
+      <h3 class="log-title">Troubleshooting log <span class="log-count">no entries yet</span></h3>
+      <p class="log-empty">Nothing has broken here yet. Give it time.</p>
+    </section>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+    <footer>
+      <span>Building</span>
+      <span>•</span>
+      <span>Learning</span>
+      <span>•</span>
+      <span>Growing</span>
+    </footer>
+  </main>
+
+  <!-- Screenshot pop-up (click anywhere to close) -->
+  <div class="image-modal" id="imageModal" onclick="closeImage()">
+    <img id="expandedImage" src="" alt="Expanded lab screenshot" />
+  </div>
+
+  <!-- Contact pop-up -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card">
+      <button type="button" class="close-button" id="closeContact" aria-label="Close">×</button>
+      <h2>Contact Shanae</h2>
+      <p>Choose how you’d like to connect.</p>
+      <div class="modal-links">
+        <a href="mailto:shanaerevell@outlook.com" data-goatcounter-click="contact-email-labnotes" data-goatcounter-title="Email Me (lab notes)">Email Me</a>
+        <a href="https://www.linkedin.com/in/shanaerevell" target="_blank" rel="noopener noreferrer" data-goatcounter-click="contact-linkedin-labnotes" data-goatcounter-title="LinkedIn (lab notes)">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="labnotes.js?v=1"></script>
+
+  <!-- Visitor stats (GoatCounter), same as the main page -->
+  <script data-goatcounter="https://shanaerevell.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

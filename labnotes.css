@@ -1,0 +1,323 @@
+/* =========================
+   LAB NOTES PAGE (homelab.html)
+   Colors come from the variables at the top of style.css
+========================= */
+
+/* ---- Page header ---- */
+.lab-header {
+  margin-bottom: 30px;
+}
+
+.lab-header h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 10px 0 14px;
+}
+
+.lab-intro {
+  color: var(--body-text);
+  line-height: 1.7;
+  max-width: 760px;
+}
+
+/* ---- Tier tabs ---- */
+.tier-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 18px;
+}
+
+.tier-tab {
+  background: transparent;
+  color: var(--orange);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.tier-tab:hover {
+  border-color: var(--orange);
+}
+
+/* the tab that's open */
+.tier-tab[aria-selected="true"] {
+  background: var(--button-gradient);
+  color: var(--on-accent);
+  border-color: transparent;
+}
+
+/* small status label inside a tab */
+.tab-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+}
+
+.tab-status.status-progress {
+  background: rgba(52, 199, 89, 0.18);
+  color: #7ee39a;
+}
+
+.tier-tab[aria-selected="true"] .tab-status {
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--on-accent);
+}
+
+/* JavaScript hides the tiers that aren't selected */
+.tier-panel[hidden] {
+  display: none;
+}
+
+.tier-panel + .tier-panel {
+  margin-top: 40px;   /* spacing when JavaScript is off and all tiers show */
+}
+
+/* ---- Progress + screenshots row ---- */
+.tier-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 22px;
+  margin-bottom: 34px;
+}
+
+.lab-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--orange-bright);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.lab-card h3 {
+  color: var(--orange);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* checklist: green check when done, empty box when not */
+.checklist {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.checklist li {
+  color: var(--muted);
+  padding-left: 30px;
+  position: relative;
+  line-height: 1.45;
+}
+
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 5px;
+}
+
+.checklist li.done {
+  color: var(--text);
+}
+
+.checklist li.done::before {
+  content: "✓";
+  background: var(--green);
+  border-color: var(--green);
+  color: #04210c;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 18px;
+}
+
+/* screenshot thumbnails with captions */
+.lab-shots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.lab-shots figure {
+  margin: 0;
+}
+
+.lab-shots figcaption {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+/* ---- Troubleshooting log ---- */
+.log-title {
+  color: var(--orange);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.log-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.log-empty {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* one card per issue */
+.issue {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--orange-bright);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+}
+
+.issue-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.issue-num {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.issue-head h4 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  flex: 1 1 260px;
+}
+
+.issue-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.issue-status.resolved {
+  background: rgba(52, 199, 89, 0.16);
+  color: #7ee39a;
+}
+
+.issue-status.open {
+  background: rgba(255, 165, 82, 0.16);
+  color: var(--tag-text);
+}
+
+.issue-date {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* Problem / Cause / Fix / Lesson rows */
+.issue-body {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px 18px;
+}
+
+.issue-body dt {
+  color: var(--orange);
+  font-weight: 600;
+}
+
+.issue-body dd {
+  color: var(--body-text);
+  line-height: 1.6;
+}
+
+.issue code {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+.issue pre {
+  background: #050505;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.issue pre code {
+  background: none;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* photo strip under an issue */
+.issue-shots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.issue-shots img {
+  aspect-ratio: 4/3;
+}
+
+/* ---- Phones and small tablets ---- */
+@media (max-width: 900px) {
+  .lab-header h2 {
+    font-size: 2.3rem;
+  }
+
+  .tier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .issue-body {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .issue-body dd {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .tier-tab {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .lab-shots,
+  .issue-shots {
+    grid-template-columns: 1fr 1fr;
+  }
+}
